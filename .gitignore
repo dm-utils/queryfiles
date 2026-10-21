@@ -1,0 +1,5 @@
+build/
+build_log*.txt
+release_staging/
+QueryFiles.zip
+tests/actual_*.txt

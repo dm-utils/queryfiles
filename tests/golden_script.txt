@@ -1,0 +1,24 @@
+.bail on
+.mode duckbox
+.maxrows 1000
+SET threads = 2
+;
+CREATE OR REPLACE TEMP VIEW __qf_this AS SELECT * FROM read_csv('C:/data/it''s.tsv', delim = '\t');
+.print <NUL>QF:0<NUL>
+select * from __qf_this
+;
+.print <NUL>QF:1<NUL>
+describe __qf_this
+;
+.print <NUL>QF:2<NUL>
+select klant, count(*) as n
+from __qf_this
+group by all
+order by klant nulls last
+;
+.print <NUL>QF:3<NUL>
+create table t as select 1
+;
+.print <NUL>QF:4<NUL>
+select 42 as x, NULL as leeg, '' as empty
+;

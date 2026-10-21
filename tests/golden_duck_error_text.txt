@@ -1,0 +1,16 @@
+exit 1
+--- section -1
+--- section 0
+┌───────┐
+│   1   │
+│ int32 │
+├───────┤
+│     1 │
+└───────┘
+--- section 1 (error)
+Binder Error: Referenced column "nope" not found in FROM clause!
+Candidate bindings: "bedrag"
+
+LINE 2:   , nope
+            ^^^^
+=> error at source line 5

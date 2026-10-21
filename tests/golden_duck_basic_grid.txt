@@ -1,0 +1,24 @@
+exit 0
+--- section -1
+--- section 0
+columns: [klant] [bedrag] [datum]
+  row 0: [Alpha] [1,5] [2026-01-02]
+  row 1: [Beta] [2,25] [2026-02-03]
+  row 2: NULL [3] NULL
+  (capped)
+--- section 1
+columns: [column_name] [column_type] [null] [key] [default] [extra]
+  row 0: [klant] [VARCHAR] [YES] NULL NULL NULL
+  row 1: [bedrag] [VARCHAR] [YES] NULL NULL NULL
+  row 2: [datum] [DATE] [YES] NULL NULL NULL
+--- section 2
+columns: [klant] [n]
+  row 0: [Alpha] [1]
+  row 1: [Beta] [1]
+  row 2: [Gamma] [1]
+  (capped)
+--- section 3
+(no result)
+--- section 4
+columns: [x] [leeg] [empty]
+  row 0: [42] NULL []

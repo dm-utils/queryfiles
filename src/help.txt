@@ -1,0 +1,89 @@
+Datamodder Query Files - Help
+=============================
+
+Run SQL on CSV, Parquet, JSON and Excel files in Notepad++, powered by DuckDB.
+
+
+REQUIREMENTS
+------------
+duckdb.exe (free, https://duckdb.org/). Query Files looks for it in this order:
+  1. the path in Settings -> DuckDB
+  2. the path set in Datamodder File Tools (if you use that plugin)
+  3. your PATH
+  4. next to the plugin: plugins\QueryFiles\duckdb.exe
+  5. next to File Tools:  plugins\FileTools\duckdb.exe
+Settings -> DuckDB shows which one is in use.
+
+
+QUICK START
+-----------
+1. Open a data file (orders.csv, sales.parquet, data.json, list.xlsx ...).
+2. Plugins -> Datamodder Query Files -> Query this file.
+   A new SQL tab opens with:
+       -- this: C:\...\orders.csv
+       select *
+       from this
+       limit 100;
+3. Click the green play button in the toolbar (or Plugins -> Datamodder Query
+   Files -> Run query). The result opens in a tab, or in the result panel when
+   "Results as table" is on.
+
+Describe THIS and Summarize THIS show the columns and types, or statistics per
+column, in one click. They work from the SQL tab and from the data tab itself.
+
+
+THIS
+----
+THIS is the data file a SQL tab belongs to. It is a reserved word of Query
+Files and read-only:
+  - use it like a table: from this, join this t on ..., this.column,
+    describe this, copy this to 'out.parquet'
+  - it can't be used as a name: not as an alias (as this), CTE (with this as),
+    table or view name, or as the target of insert / update / delete.
+  - a column called "this" still works when written with double quotes.
+
+How THIS is found for the tab you run:
+  1. the data tab you started "Query this file" from (unsaved changes in that
+     tab are included);
+  2. otherwise a line  -- this: <path>  in the comments at the top of the SQL
+     (a relative path is relative to the SQL file);
+  3. otherwise THIS is not defined, and you name files in the query yourself.
+
+
+QUERYING FILES ON DISK
+----------------------
+Any query can read files directly, and join them:
+    select o.*, k.naam
+    from 'orders.parquet' o
+    join 'klanten.csv' k using (klant_id);
+    select * from 'logs/*.json';
+Relative paths are relative to the folder of the SQL file.
+
+
+WHAT GETS RUN
+-------------
+The selection if there is one, otherwise the whole document. Statements are
+separated by ;. With more than one result, the text view shows them one after
+the other and the table view gets a tab per result.
+
+DuckDB dot commands (.tables, .mode csv ...) on a line of their own work too.
+
+Every run starts a fresh in-memory DuckDB, so a table you create is gone at
+the next run, unless you set a database file in Settings -> DuckDB.
+
+
+RESULTS
+-------
+Text tab (default): a DuckDB box table in a tab that is reused for every run.
+Table: a docked panel. Click a column header to sort, Ctrl+C copies the
+selected rows (tab separated, with header) for Excel, right-click for more.
+Switch with Plugins -> Datamodder Query Files -> Results as table, or in
+Settings -> Results. After a run the focus moves to the result.
+
+Errors appear where the result would go, with the line number in your SQL.
+
+
+CANCEL
+------
+Plugins -> Datamodder Query Files -> Cancel query, or click the play button
+again while a query runs. Settings -> Behavior has an optional timeout.

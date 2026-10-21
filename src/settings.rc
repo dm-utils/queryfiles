@@ -1,0 +1,163 @@
+#define IDOK        1
+#define IDCANCEL    2
+#define WS_TABSTOP  0x00010000
+#define WS_GROUP    0x00020000
+#define WS_BORDER   0x00800000
+#define WS_VSCROLL  0x00200000
+#define LBS_NOTIFY  0x0001
+#define ES_MULTILINE   0x0004
+#define ES_AUTOVSCROLL 0x0040
+#define ES_WANTRETURN  0x1000
+#define ES_NUMBER   0x2000
+#define CBS_DROPDOWNLIST 0x0003
+#define RT_MANIFEST 24
+
+#include "resource.h"
+
+2 RT_MANIFEST "src\\QueryFiles.manifest"
+
+// ─── toolbar button (Run query) ───────────────────────────────────────────────
+
+IDB_TB_RUN      BITMAP "src\\tb_run.bmp"
+IDI_TB_RUN      ICON   "src\\tb_run.ico"
+IDI_TB_RUN_DARK ICON   "src\\tb_run_dark.ico"
+
+// ─── version info (Notepad++ plugin list / update checks) ────────────────────
+
+1 VERSIONINFO
+FILEVERSION     QUERYFILES_VERSION_COMMA
+PRODUCTVERSION  QUERYFILES_VERSION_COMMA
+FILEFLAGSMASK   0x3fL
+FILEFLAGS       0x0L
+FILEOS          0x40004L
+FILETYPE        0x2L
+FILESUBTYPE     0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName",      "Datamodder"
+            VALUE "FileDescription",  "Datamodder Query Files for Notepad++"
+            VALUE "FileVersion",      QUERYFILES_VERSION
+            VALUE "InternalName",     "QueryFiles"
+            VALUE "LegalCopyright",   "Copyright (c) 2026 Datamodder"
+            VALUE "OriginalFilename", "QueryFiles.dll"
+            VALUE "ProductName",      "Datamodder Query Files"
+            VALUE "ProductVersion",   QUERYFILES_VERSION
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+// ─── main settings dialog ─────────────────────────────────────────────────────
+
+IDD_SETTINGS DIALOG 0, 0, 420, 305
+STYLE 0x80C80040
+CAPTION "Datamodder Query Files - Settings"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LISTBOX IDC_NAV, 7, 7, 80, 265, LBS_NOTIFY | WS_VSCROLL | WS_BORDER | WS_TABSTOP
+    DEFPUSHBUTTON "Save",   IDOK,      303, 281, 50, 14
+    PUSHBUTTON    "Cancel", IDCANCEL,  360, 281, 50, 14
+END
+
+// ─── tab: DuckDB (shown first) ────────────────────────────────────────────────
+
+IDD_TAB_DUCKDB DIALOG 0, 0, 322, 230
+STYLE 0x44000040
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX   "duckdb.exe", -1, 5, 5, 308, 74
+    LTEXT      "Leave empty to use File Tools' DuckDB, PATH, or duckdb.exe next to the plugin:", -1, 13, 18, 290, 10
+    EDITTEXT   IDC_DUCKDB_PATH,                                          13, 31, 230, 14, WS_BORDER | WS_TABSTOP
+    PUSHBUTTON "Browse...", IDC_DUCKDB_BROWSE,                          250, 31,  55, 14
+    LTEXT      "", IDC_DUCKDB_INUSE,                                     13, 50, 292, 25
+
+    GROUPBOX   "Database", -1, 5, 84, 308, 50
+    LTEXT      "Database file  (empty = in-memory: tables are gone after each run):", -1, 13, 97, 290, 10
+    EDITTEXT   IDC_DB_FILE,                                              13, 110, 230, 14, WS_BORDER | WS_TABSTOP
+    PUSHBUTTON "Browse...", IDC_DB_BROWSE,                              250, 110,  55, 14
+
+    GROUPBOX   "SQL run before every query", -1, 5, 139, 308, 85
+    EDITTEXT   IDC_PRELUDE, 13, 152, 292, 52, WS_BORDER | WS_TABSTOP | WS_VSCROLL | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN
+    LTEXT      "For example:  SET threads = 4;   or   LOAD excel;", -1, 13, 208, 290, 10
+END
+
+// ─── tab: Results ─────────────────────────────────────────────────────────────
+
+IDD_TAB_RESULTS DIALOG 0, 0, 322, 230
+STYLE 0x44000040
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Show results as", -1, 5, 5, 308, 33
+    AUTORADIOBUTTON "Text in a tab",         IDC_VIEW_TEXT,  13, 18, 120, 10, WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "Table  (docked panel)", IDC_VIEW_TABLE, 140, 18, 160, 10
+
+    LTEXT    "Max. rows shown:", -1,                         13, 47, 200, 10
+    EDITTEXT IDC_MAX_ROWS,                                  250, 45,  50, 12, WS_BORDER | WS_TABSTOP | ES_NUMBER
+
+    GROUPBOX     "Text tab", -1, 5, 64, 308, 86
+    LTEXT        "Output format:", -1,                      13, 78, 100, 10
+    COMBOBOX     IDC_TEXT_MODE,                            120, 76, 185, 120, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT        "Stop reading output after (MB):", -1,     13, 96, 200, 10
+    EDITTEXT     IDC_MAX_MB,                               250, 94,  50, 12, WS_BORDER | WS_TABSTOP | ES_NUMBER
+    AUTOCHECKBOX "Reuse the result tab",                   IDC_REUSE_TAB,   13, 113, 290, 10, WS_TABSTOP
+    AUTOCHECKBOX "Header line  (THIS, run time)",          IDC_HEADER_LINE, 13, 128, 290, 10, WS_TABSTOP
+
+    GROUPBOX     "Table", -1, 5, 155, 308, 48
+    LTEXT        "Show NULL as:", -1,                       13, 169, 100, 10
+    EDITTEXT     IDC_NULL_TEXT,                            120, 167,  80, 12, WS_BORDER | WS_TABSTOP
+    AUTOCHECKBOX "Right-align numeric columns",            IDC_RIGHT_ALIGN, 13, 185, 290, 10, WS_TABSTOP
+END
+
+// ─── tab: Behavior & Profiles ─────────────────────────────────────────────────
+
+IDD_TAB_BEHAVIOR DIALOG 0, 0, 322, 262
+STYLE 0x44000040
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX "Behavior", -1, 5, 5, 308, 30
+    LTEXT    "Stop a query after (seconds, 0 = never):", -1, 13, 18, 200, 10
+    EDITTEXT IDC_TIMEOUT,                                   250, 16,  50, 12, WS_BORDER | WS_TABSTOP | ES_NUMBER
+
+    GROUPBOX "Saved profiles", -1, 5, 40, 308, 155
+    LISTBOX IDC_PROFILE_LIST,                    13,  53, 195, 135, LBS_NOTIFY | WS_VSCROLL | WS_BORDER | WS_TABSTOP
+    PUSHBUTTON "Load",   IDC_PROFILE_LOAD,       213, 53,  92, 14
+    PUSHBUTTON "Delete", IDC_PROFILE_DELETE,     213, 71,  92, 14
+
+    GROUPBOX "Save current settings as profile", -1, 5, 198, 308, 35
+    LTEXT    "Name:", -1,                         13, 213,  30, 10
+    EDITTEXT IDC_PROFILE_NAME,                    45, 212, 160, 12, WS_BORDER | WS_TABSTOP
+    PUSHBUTTON "Save", IDC_PROFILE_SAVE,         210, 210,  95, 14
+
+    PUSHBUTTON "Export to JSON...",   IDC_PROFILE_EXPORT,   5, 240, 148, 14
+    PUSHBUTTON "Import from JSON...", IDC_PROFILE_IMPORT, 158, 240, 148, 14
+END
+
+// ─── result panel (docked by Notepad++; controls are created in code) ────────
+
+IDD_RESULT_PANEL DIALOG 0, 0, 300, 120
+STYLE 0x80C80040
+EXSTYLE 0x00000080
+CAPTION "Query Files"
+FONT 8, "MS Shell Dlg"
+BEGIN
+END
+
+// ─── about dialog ─────────────────────────────────────────────────────────────
+
+IDD_ABOUT DIALOG 0, 0, 300, 264
+STYLE 0x80C80040
+CAPTION "About Datamodder Query Files"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT "", IDC_ABOUT_VERSION, 10, 8, 280, 10
+    LTEXT "", IDC_ABOUT_BODY, 10, 22, 280, 175
+    CONTROL "<a href=""https://datamodder.com/utils/query-files"">https://datamodder.com/utils/query-files</a>", IDC_ABOUT_LINK_WEBSITE, "SysLink", WS_TABSTOP, 10, 200, 280, 12
+    CONTROL "<a href=""https://github.com/dm-utils/queryfiles"">https://github.com/dm-utils/queryfiles</a>", IDC_ABOUT_LINK, "SysLink", WS_TABSTOP, 10, 214, 280, 12
+    DEFPUSHBUTTON "OK", IDOK, 243, 244, 47, 14
+END

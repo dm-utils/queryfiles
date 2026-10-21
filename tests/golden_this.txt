@@ -1,0 +1,31 @@
+REWRITE  select * from __qf_this
+REWRITE  select * from __qf_this where __qf_this.klant = 'this' -- this in a comment
+REWRITE  from __qf_this select count(*)
+REWRITE  describe __qf_this
+REWRITE  summarize __qf_this
+REWRITE  select a, b from __qf_this t join other o on o.id = t.id
+REWRITE  select * from other o left join __qf_this on __qf_this.id = o.id
+REWRITE  copy (select * from __qf_this) to 'out.parquet'
+REWRITE  copy __qf_this to 'out.csv'
+REWRITE  select "this" from __qf_this
+REWRITE  select (select max(x) from __qf_this) as m
+REWRITE  select count(*) filter (where __qf_this.x > 1) from __qf_this
+REWRITE  with x as (select * from __qf_this) select * from x
+REFUSED  (line 15)  select 1 as this
+REFUSED  (line 16)  select 1 this
+REFUSED  (line 17)  select * from t this
+REFUSED  (line 18)  with this as (select 1) select * from this
+REFUSED  (line 19)  create table this as select 1
+REFUSED  (line 20)  create or replace temp view this as select 1
+REFUSED  (line 21)  insert into this values (1)
+REFUSED  (line 22)  update this set a = 1
+REFUSED  (line 23)  delete from this
+REFUSED  (line 24)  drop table this
+REFUSED  (line 25)  alter table this add column z int
+REFUSED  (line 26)  create table if not exists this (a int)
+REFUSED  (line 27)  select * from (select 1) this
+REFUSED  (line 32)  select x
+  , y
+from other
+where z in (select z from this)
+  and w = 1 as this

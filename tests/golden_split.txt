@@ -1,0 +1,19 @@
+[0] line 2
+select 1
+[1] line 2
+select 2
+[2] line 4
+select 'a;b' as "x;y"
+[3] line 6
+select $$ dollar ; body $$, $tag$ also ; here $tag$, $1
+[4] line 7 dot
+.tables
+[5] line 8 dot
+.mode csv
+[6] line 9
+select
+  x  -- trailing ; comment
+from t
+[7] line 14
+select last_one_without_semicolon
+-- tail comment

@@ -1,0 +1,5 @@
+columns: [a] [b] [c,d] [e]
+  row 0: [1] [x "q" y] [] []
+  row 1: [2] [multi
+line] [-3.5] [txt]
+  row 2: [3] [] [] []

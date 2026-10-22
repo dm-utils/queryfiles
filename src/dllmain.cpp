@@ -351,7 +351,8 @@ static void finish_job(Job* j) {
         if (failed && i + 1 == secs.size()) break;               // the error, below
         if (s.body.empty()) continue;
         if (s.stmt >= 0 && with_output > 1)
-            out += "-- [" + std::to_string(s.stmt + 1) + "] " + one_line(j->stmts[s.stmt].text, 80) + "\n";
+            out += "-- [" + std::to_string(s.stmt + 1) + "] " +
+                   one_line(qf::unalias_this(j->stmts[s.stmt].text, false), 80) + "\n";
         out += qf::unalias_this(qf::clean_text_output(s.body), true) + "\n";
     }
     if (!error.empty()) out += "-- " + error + "\n";

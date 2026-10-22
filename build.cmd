@@ -43,7 +43,9 @@ copy /y "src\help.txt" "%DST%\help.txt"
 if errorlevel 1 ( echo Help file copy failed & exit /b 1 )
 
 :: -- Restart Notepad++ --
-start "" "C:\Program Files\Notepad++\notepad++.exe"
+:: Via explorer.exe, so Notepad++ never inherits this (elevated) prompt's
+:: admin rights - an elevated Notepad++ ignores messages from normal apps.
+explorer.exe "C:\Program Files\Notepad++\notepad++.exe"
 
 echo Build and deploy complete.
 exit /b 0

@@ -9,8 +9,7 @@ panel.
 **64-bit Notepad++ only.** Needs `duckdb.exe` (PATH, next to the plugin, set
 in Settings, or the one Datamodder File Tools already uses).
 
-See [DESIGN.md](DESIGN.md) for the design and [src/help.txt](src/help.txt)
-for usage.
+See [src/help.txt](src/help.txt) for usage.
 
 ## Build
 

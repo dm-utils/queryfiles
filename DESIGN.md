@@ -10,8 +10,12 @@ Settings with INI + JSON profiles, console regression harness, `build.cmd`
 deploy, version in `settings.rc`.
 
 Proposed: repo `dm-utils/queryfiles`, plugin folder `QueryFiles`, DLL
-`QueryFiles.dll`, display name "Datamodder Query Files", MIT. Starts at
-`1.0.0.0`.
+`QueryFiles.dll`, display name "Datamodder Query Files", MIT.
+
+**Version** in `src/resource.h` (3 places). Started at `1.3.1.0`, in line
+with the other Datamodder plugins; **every push raises the last number by
+one**. Once the plugin is in the Notepad++ plugin list, the number there must
+equal the DLL's file version and may only go up.
 
 ## Why this plugin
 
@@ -437,7 +441,7 @@ Still open:
    version current at build time (marker lines between results, NULL
    sentinel in CSV mode). Test first; the grid design leans on them.
 
-## Implementation notes (v1.0.0.0, 2026-10-22)
+## Implementation notes (first build, 2026-10-22)
 
 What the first build does differently from, or more precisely than, the
 design above — found while testing against DuckDB 2.0.0:

@@ -6,6 +6,8 @@ powered by [DuckDB](https://duckdb.org/). Open a data file, choose
 join them. Results appear as text in a tab or as a sortable table in a docked
 panel.
 
+**Website:** [datamodder.com/en/utils/query-files](https://datamodder.com/en/utils/query-files)
+
 **64-bit Notepad++ only.** Needs `duckdb.exe` (PATH, next to the plugin, set
 in Settings, or the one Datamodder File Tools already uses).
 

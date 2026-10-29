@@ -8,7 +8,7 @@ panel.
 
 **Website:** [datamodder.com/en/utils/query-files](https://datamodder.com/en/utils/query-files)
 
-**64-bit Notepad++ only.** Needs `duckdb.exe` (PATH, next to the plugin, set
+For 64-bit, 32-bit and ARM64 Notepad++. Needs `duckdb.exe` (PATH, next to the plugin, set
 in Settings, or the one Datamodder File Tools already uses).
 
 See [src/help.txt](src/help.txt) for usage.
@@ -22,10 +22,24 @@ build.cmd            compile, close Notepad++, deploy to plugins\QueryFiles, res
 build.cmd nodeploy   compile only (build\QueryFiles.dll)
 ```
 
+## Release
+
+```
+release.cmd
+```
+
+Builds `QueryFiles.dll` and zips it with `help.txt` into
+`release_staging\QueryFiles.zip` (x64) or `QueryFiles_<arch>.zip`, printing the
+SHA-256 the plugin lists need. By default only x64; `release.cmd x64 x86 arm64`
+(or the commented line in the script) also builds the Win32 and ARM64
+versions. ARM64 needs the "MSVC C++ ARM64/ARM64EC build tools" component of
+Visual Studio. The plugin runs `duckdb.exe` as a separate program, so any
+duckdb build works with any of them.
+
 ## Test
 
 ```
-test.cmd
+test.cmd             (test.cmd x86 runs them as a 32-bit program)
 ```
 
 Golden tests for the SQL-text layer (statement splitting, THIS rewrite and

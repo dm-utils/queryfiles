@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 cd /d "%~dp0"
 
-call .\build_harness.cmd >nul
+call .\build_harness.cmd %1 >nul
 if errorlevel 1 ( echo Harness build failed & exit /b 1 )
 
 set H=.\build\harness\test_harness.exe

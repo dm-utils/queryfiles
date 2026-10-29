@@ -1,8 +1,8 @@
 #pragma once
 
-#define QUERYFILES_VERSION       "1.3.1.2"
-#define QUERYFILES_VERSION_W     L"1.3.1.2"
-#define QUERYFILES_VERSION_COMMA 1,3,1,2
+#define QUERYFILES_VERSION       "1.3.1.3"
+#define QUERYFILES_VERSION_W     L"1.3.1.3"
+#define QUERYFILES_VERSION_COMMA 1,3,1,3
 
 // ─── main settings dialog ────────────────────────────────────────────────────
 #define IDD_SETTINGS       101

@@ -6,7 +6,11 @@ Run SQL on CSV, Parquet, JSON and Excel files in Notepad++, powered by DuckDB.
 
 REQUIREMENTS
 ------------
-duckdb.exe (free, https://duckdb.org/). Query Files looks for it in this order:
+Notepad++ 8.3 or later: 64-bit, 32-bit or ARM64.
+
+duckdb.exe (free, https://duckdb.org/). Query Files runs it as a separate
+program, so any duckdb.exe works, also a 64-bit one with a 32-bit
+Notepad++. Query Files looks for it in this order:
   1. the path in Settings -> DuckDB
   2. the path set in Datamodder File Tools (if you use that plugin)
   3. your PATH
